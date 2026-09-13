@@ -11,3 +11,9 @@ curl -o data/kilgariff-bnc-lists-lemma.txt https://www.kilgarriff.co.uk/BNClists
 ```bash
 grep ' n$' data/kilgarriff-bnc-lists-lemma.txt > data/kilgarriff-noun-lemmata.txt
 ```
+
+## Generating a new Pool File
+
+```bash
+lake exec genpool
+```

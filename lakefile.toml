@@ -8,3 +8,7 @@ name = "MemTrain"
 [[lean_exe]]
 name = "memtrain"
 root = "Main"
+
+[[lean_exe]]
+name = "genpool"
+root = "GenPool"
