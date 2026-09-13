@@ -538,20 +538,6 @@ def render (cfg : Config) (ts : Array Token) : String :=
     ++ "const POOL = " ++ poolToJson ts ++ ";\n"
     ++ tailJs
 
-/-! ## The word pool
-
-Replace this with the compiled BNC noun list. Bands are free-form strings;
-whatever distinct values appear here become the difficulty selector on the
-page, and an empty pool renders a page that says so. -/
-
-def tokens : Array Token := #[
-  { word := "anvil",    freq := 12,  band := "rare" },
-  { word := "harbour",  freq := 210, band := "mid" },
-  { word := "thimble",  freq := 9,   band := "rare" },
-  { word := "kettle",   freq := 84,  band := "mid" },
-  { word := "ladder",   freq := 150, band := "mid" }
-]
-
 def config : Config := {}
 
 end MemTrain.Tray
