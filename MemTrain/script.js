@@ -174,16 +174,24 @@
     el.word.focus();
   };
 
+  // These are all single words, never compounds with an internal space, so
+  // splitting on space or comma lets someone type several at once without
+  // the whole line being scored as one (wrong) guess.
   var addWord = function () {
-    var raw = el.word.value.trim();
+    var raw = el.word.value;
     el.word.value = "";
     el.word.focus();
-    if (!raw) { return; }
-    var k = key(raw);
-    if (!k) { return; }
-    var dup = given.some(function (w) { return key(w) === k; });
-    if (dup) { return; }
-    given.push(raw);
+
+    raw.split(/[\s,]+/).forEach(function (w) {
+      w = w.trim();
+      if (!w) { return; }
+      var k = key(w);
+      if (!k) { return; }
+      var dup = given.some(function (g) { return key(g) === k; });
+      if (dup) { return; }
+      given.push(w);
+    });
+
     render();
   };
 

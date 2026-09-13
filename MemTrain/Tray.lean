@@ -27,8 +27,8 @@ structure Token where
 /-- Page-level settings baked into the generated file. -/
 structure Config where
   title     : String := "Tray"
-  subtitle  : String := "Fifteen words, one minute, then write down what you can."
-  trayCount : Nat := 15
+  subtitle  : String := "Sixteen words, one minute, then write down what you can."
+  trayCount : Nat := 16
   studySecs : Nat := 60
   outFile   : System.FilePath := "index.html"
   styleFile : System.FilePath := "MemTrain/style.css"
