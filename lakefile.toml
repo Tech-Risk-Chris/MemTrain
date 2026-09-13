@@ -1,10 +1,10 @@
-name = "Untitled"
+name = "MemTrain"
 version = "0.1.0"
-defaultTargets = ["untitled"]
+defaultTargets = ["memtrain"]
 
 [[lean_lib]]
-name = "Untitled"
+name = "MemTrain"
 
 [[lean_exe]]
-name = "untitled"
+name = "memtrain"
 root = "Main"
