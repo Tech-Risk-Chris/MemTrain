@@ -112,6 +112,8 @@ def headB2 : String := r#"</style>
   </header>
 
   <div class="controls">
+    <label class="field"><span>Tray date</span>
+      <input class="js-date" type="date"></label>
     <label class="field"><span>Words on the tray</span>
       <input class="js-count" type="number" min="3" max="60" step="1"></label>
     <label class="field"><span>Seconds to study</span>
@@ -149,7 +151,7 @@ def headB2 : String := r#"</style>
       <h3>Words you added that were never there</h3>
       <p class="extra js-extra"></p>
     </div>
-    <button class="primary js-again">Lay out a fresh tray</button>
+    <button class="primary js-again">Lay out the tray again</button>
   </section>
 
   <section class="ledger js-ledger hidden">

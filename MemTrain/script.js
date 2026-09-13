@@ -7,6 +7,7 @@
   var el = {
     title:   q("js-title"),
     sub:     q("js-subtitle"),
+    date:    q("js-date"),
     count:   q("js-count"),
     secs:    q("js-secs"),
     bandBox: q("js-bandfield"),
@@ -39,6 +40,15 @@
   el.count.value = CFG.count;
   el.secs.value = CFG.secs;
 
+  // Default the date field to today (local time, not UTC — building the
+  // string by hand avoids the off-by-one-day trap of toISOString() near
+  // midnight in timezones behind UTC).
+  (function () {
+    var pad2 = function (n) { return (n < 10 ? "0" : "") + n; };
+    var today = new Date();
+    el.date.value = today.getFullYear() + "-" + pad2(today.getMonth() + 1) + "-" + pad2(today.getDate());
+  })();
+
   // ---- helpers ---------------------------------------------------------
 
   // Matching is generous: case, accents and punctuation are ignored, so
@@ -47,10 +57,28 @@
     return s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]/g, "");
   };
 
-  var sample = function (list, n) {
+  // Turn "2026-09-13" into 20260913, so the same date always gives the
+  // same tray — that's how family members share a tray without agreeing
+  // on anything more than "today's date" (or any other date they pick).
+  var dateSeed = function (dateStr) {
+    return parseInt(dateStr.replace(/-/g, ""), 10) || 0;
+  };
+
+  // Math.random() can't be seeded, so sampling needs its own small PRNG
+  // (mulberry32) whenever the tray has to be reproducible from a seed.
+  var mulberry32 = function (seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+
+  var sample = function (list, n, rng) {
     var a = list.slice();
     for (var i = a.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
+      var j = Math.floor(rng() * (i + 1));
       var t = a[i]; a[i] = a[j]; a[j] = t;
     }
     return a.slice(0, Math.min(n, a.length));
@@ -109,7 +137,8 @@
       return;
     }
 
-    target = sample(pool, n);
+    var rng = mulberry32(dateSeed(el.date.value));
+    target = sample(pool, n, rng);
     given = [];
     show(el.note, false);
     show(el.result, false);

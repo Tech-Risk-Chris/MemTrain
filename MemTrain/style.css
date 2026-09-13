@@ -54,6 +54,7 @@ input, select, button {
   padding: 0.45rem 0.6rem;
 }
 input[type="number"] { width: 5rem; }
+input[type="date"] { width: 9.5rem; }
 button { cursor: pointer; border-color: var(--brass); }
 button:hover { background: var(--baize-lift); }
 button:focus-visible, input:focus-visible, select:focus-visible {
